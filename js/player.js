@@ -10,7 +10,7 @@
 //   5. Suavizar visualmente la subido por los escalones
 //   6. Respawn si cae al vacío
 
-const MODEL_URL = 'assets/models/Steve.glb'; // Modelo obtenido en https://poly.pizza/bundle/Cube-World-Kit-DwDr8493Fw
+const PLAYER_MODEL_URL = 'assets/models/Steve.glb'; // Modelo obtenido en https://poly.pizza/bundle/Cube-World-Kit-DwDr8493Fw
 
 // Nombres de las animaciones dentro de Steve.glb
 const ANIM_IDLE = 'CharacterArmature|CharacterArmature|CharacterArmature|Idle';
@@ -134,7 +134,7 @@ class Player {
     var loader = new THREE.GLTFLoader();
 
     loader.load(
-      MODEL_URL,
+      PLAYER_MODEL_URL,
       function(gltf) {
         var model = gltf.scene;
         self._prepareModelMaterials(model);
@@ -148,7 +148,7 @@ class Player {
       },
       undefined,
       function(error) {
-        console.error('Error cargando ' + MODEL_URL, error);
+        console.error('Error cargando ' + PLAYER_MODEL_URL, error);
       }
     );
   }
@@ -164,7 +164,13 @@ class Player {
       const old = o.material;
       old.map.encoding = THREE.LinearEncoding; // (Chatbot)
 
-      o.material = new THREE.MeshLambertMaterial({map: old.map});
+      o.material = new THREE.MeshPhongMaterial({ 
+        map: old.map,
+        color: old.color,
+        shininess: 80,
+        // emissive: 0x1a1200,       
+        // emissiveIntensity: 1.0
+      });
     });
   }
 
@@ -178,11 +184,7 @@ class Player {
     // Centrar en X/Z y colocar los pies en la cara inferior de la caja
     bbox.setFromObject(model);
     const center = bbox.getCenter(new THREE.Vector3());
-    model.position.set(
-      -center.x,
-      -this.halfSize.y - bbox.min.y,
-      -center.z
-    );
+    model.position.set(-center.x, -this.halfSize.y - bbox.min.y, -center.z);
   }
 
   _setupAnimations(model, clips)
@@ -191,7 +193,7 @@ class Player {
     clips.forEach((clip) => {
       this.actions[clip.name] = this.mixer.clipAction(clip);
     });
-    console.log('Animaciones de Steve:', Object.keys(this.actions));
+    // console.log('Animaciones de Steve:', Object.keys(this.actions));
 
     this.idleAction = this.actions[ANIM_IDLE];
     this.walkAction = this.actions[ANIM_RUN];
