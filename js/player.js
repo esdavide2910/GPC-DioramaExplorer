@@ -167,9 +167,7 @@ class Player {
       o.material = new THREE.MeshPhongMaterial({ 
         map: old.map,
         color: old.color,
-        shininess: 80,
-        // emissive: 0x1a1200,       
-        // emissiveIntensity: 1.0
+        shininess: 80
       });
     });
   }
@@ -373,12 +371,12 @@ class Player {
   }
 
   // Altura del centro del jugador si estuviera apoyado en el suelo más alto bajo él (-Infinity si no hay suelo).
-  // Los rayos parten de los pies + maxStepHeight: lo que quede más alto que eso no cuenta como suelo (es una pared), lo que evita teletransportes. Se lanzan desde
-  // el centro y las cuatro esquinas de la base para detectar suelo aunque solo se pise parcialmente.
+  // Los rayos parten de los pies + maxStepHeight: lo que quede más alto que eso no cuenta como suelo (es una pared), lo que evita teletransportes. 
+  // Se lanzan desde el centro y las cuatro esquinas de la base para detectar suelo aunque solo se pise parcialmente.
   _findGroundCenterY(collidableMeshes)
   {
     const rayOriginY = this.mesh.position.y - this.halfSize.y + this.maxStepHeight;
-    let highestGroundY = -Infinity;
+    var highestGroundY = -Infinity;
 
     for (const offset of this.footOffsets) {
       this._rayOrigin.copy(this.mesh.position).add(offset);
@@ -392,7 +390,8 @@ class Player {
       }
     }
 
-    return highestGroundY === -Infinity ? -Infinity : highestGroundY + this.halfSize.y;
+    if(highestGroundY === -Infinity) return -Infinity;
+    else return highestGroundY + this.halfSize.y;
   }
 
   _landOn(centerY)
@@ -404,7 +403,7 @@ class Player {
 
   // ---- 5. Suavizado visual --------------------------------------------------------
 
-  // Si el cambio de altura fue un "snap" en el suelo (escalón), el modelo se queda atrás y se acerca poco a poco
+  // Si el cambio de altura fue un "snap" en el suelo (escalón), el modelo se queda atrás y se acerca poco a poco (Asistido por chatbot)
   _smoothStepVisual(prevY, groundedAtStart, delta)
   {
     if (groundedAtStart && this.isGrounded) {

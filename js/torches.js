@@ -74,10 +74,10 @@ class TorchManager {
         const center = bbox.getCenter(new THREE.Vector3());
         model.position.set(-center.x, -bbox.min.y, -center.z);
 
-        const template = new THREE.Group();
-        template.add(model);
+        const torch_template = new THREE.Group();
+        torch_template.add(model);
 
-        for (const t of self.torches) t.holder.add(template.clone(true));
+        for (const t of self.torches) t.holder.add(torch_template.clone());
       },
       undefined,
       function(error) {
@@ -98,7 +98,7 @@ class TorchManager {
       o.material = new THREE.MeshStandardMaterial({
         map: old.map,
         color: old.color,
-        emissive: old.color, // la antorcha "brilla" por sí misma
+        emissive: old.color, // la antorcha brilla por sí misma
         emissiveMap: old.map,
         emissiveIntensity: 1.55,
       });

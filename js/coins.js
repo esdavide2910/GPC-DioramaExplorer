@@ -22,7 +22,7 @@ class CoinManager {
     // ---- Estado ----
     this.group = new THREE.Group();
     this.scene.add(this.group);
-    this.coins = [];                       // { pivot, baseY, phase, collected }
+    this.coins = [];                       // { pivot, baseY, phase, collected } (Representación propuesta por chatbot)
     this.positions = this._readPositions(diorama);
     this.collected = 0;
     this.won = false;
@@ -67,15 +67,15 @@ class CoinManager {
         bbox.setFromObject(model);
         model.position.sub(bbox.getCenter(new THREE.Vector3()));
 
-        const template = new THREE.Group();
-        template.add(model);
+        const coin_template = new THREE.Group();
+        coin_template.add(model);
 
         for (const p of self.positions) {
           const pivot = new THREE.Group();
           pivot.position.set(p.x, p.y, p.z);
-          pivot.add(template.clone(true));
+          pivot.add(coin_template.clone(true));
           self.group.add(pivot);
-          self.coins.push({ pivot, baseY: p.y, phase: Math.random() * Math.PI * 2, collected: false });
+          self.coins.push({ pivot, baseY: p.y, phase: Math.random() * Math.PI * 2, collected: false }); // (Representación propuesta por chatbot)
         }
       },
       undefined,
@@ -103,17 +103,17 @@ class CoinManager {
     });
   }
 
-  // ---- HUD -------------------------------------------------------------------------- (Chatbot)
+  // ---- HUD -------------------------------------------------------------------------- (Asistido por chatbot)
 
   _createHUD()
   {
-    this.counterEl = document.createElement('div');
-    Object.assign(this.counterEl.style, {
+    this.coin_counter = document.createElement('div');
+    Object.assign(this.coin_counter.style, {
       position: 'fixed', top: '16px', left: '20px',
       font: 'bold 28px monospace', color: '#ffd400',
       textShadow: '2px 2px 0 #000', userSelect: 'none', pointerEvents: 'none',
     });
-    document.body.appendChild(this.counterEl);
+    document.body.appendChild(this.coin_counter);
 
     this.winEl = document.createElement('div');
     this.winEl.textContent = 'You win';
@@ -131,10 +131,10 @@ class CoinManager {
 
   _updateHUD()
   {
-    this.counterEl.textContent = `Coins: ${this.collected} / ${this.total}`;
+    this.coin_counter.textContent = `Coins: ${this.collected} / ${this.total}`;
   }
 
-  // ---- Lógica -----------------------------------------------------------------------
+  // ---- Lógica ----------------------------------------------------------------------- (Asistido por chatbot)
 
   update(delta, playerBox)
   {
@@ -186,7 +186,7 @@ class CoinManager {
   dispose()
   {
     this.scene.remove(this.group);
-    this.counterEl.remove();
+    this.coin_counter.remove();
     this.winEl.remove();
     this.group.traverse((o) => {
       if (!o.isMesh) return;

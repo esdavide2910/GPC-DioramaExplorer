@@ -122,7 +122,7 @@ function setupCamera()
   cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
   cameraControls.enablePan = false;
 
-  var elevationAngle = Math.PI / 3;
+  const elevationAngle = Math.PI / 3;
   cameraControls.minPolarAngle = elevationAngle;
   cameraControls.maxPolarAngle = elevationAngle;
 }
@@ -130,14 +130,14 @@ function setupCamera()
 
 function frameCamera() // Coloca la cámara según el tamaño del diorama actual
 {
-  var camPos = diorama.getCameraStart();
+  const camPos = diorama.getCameraStart();
   camera.position.set(camPos.x, camPos.y, camPos.z);
 
-  var target = diorama.getCenter();
+  const target = diorama.getCenter();
   cameraControls.target.set(target.x, target.y, target.z);
 
   // La cámara sigue al jugador en altura, así que la distancia depende de la base (X/Z)
-  var footprint = Math.max(diorama.sizeX, diorama.sizeZ) * TILE_SIZE;
+  const footprint = Math.max(diorama.sizeX, diorama.sizeZ) * TILE_SIZE;
   cameraControls.minDistance = footprint * 1.25;
   cameraControls.maxDistance = footprint * 4;
 
@@ -147,14 +147,14 @@ function frameCamera() // Coloca la cámara según el tamaño del diorama actual
 function setupAudio(track_path, volume) 
 {
   // Crea el receptor de audio (oyente) y lo añade a la cámara
-  var listener = new THREE.AudioListener();
+  const listener = new THREE.AudioListener();
   camera.add(listener);
 
   // Crea una fuente global de audio
-  backgroundMusic = new THREE.Audio(listener);
+  const backgroundMusic = new THREE.Audio(listener);
 
   // Carga el archivo de audio
-  var audioLoader = new THREE.AudioLoader();
+  const audioLoader = new THREE.AudioLoader();
   audioLoader.load(
     track_path, 
     function(buffer) {
@@ -164,15 +164,15 @@ function setupAudio(track_path, volume)
     }
   );
 
-  // Inicia la música tras la primera interacción del usuario (requerido por los navegadores)
-  var startAudioOnInteraction = () => {
+  // Los navegadores Chromium y Firefox bloquean el audio automático, por ello lo activamos desde la primera interacción del usuario
+  const startAudioOnInteraction = function(){ 
     if (backgroundMusic && backgroundMusic.buffer && !backgroundMusic.isPlaying) {
       backgroundMusic.play();
     }
-    // Elimina los escuchas para que no se reejecuten
+    // Elimina las escuchas para que no se reejecuten una y otra vez
     window.removeEventListener('click', startAudioOnInteraction);
     window.removeEventListener('keydown', startAudioOnInteraction);
-  };
+  }
 
   window.addEventListener('click', startAudioOnInteraction);
   window.addEventListener('keydown', startAudioOnInteraction);

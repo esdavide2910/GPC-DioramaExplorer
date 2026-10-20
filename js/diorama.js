@@ -160,7 +160,7 @@ function createPartGeometry(part, tileSize) {
   return geom;
 }
 
-// Recalcula los UVs según la posición dentro del bloque, para que la textura no se estire en las partes de media altura y encaje con los bloques vecinos
+// Recalcula los UVs según la posición dentro del bloque, para que la textura no se estire en las partes de media altura y encaje con los bloques vecinos (Asistido por chatbot)
 function mapBlockUVs(geom, tileSize) {
   const pos = geom.attributes.position;
   const nor = geom.attributes.normal;
