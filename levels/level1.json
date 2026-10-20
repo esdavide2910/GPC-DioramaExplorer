@@ -1,0 +1,52 @@
+{
+  "playerSpawn": { "x": 3, "y": 2, "z": 3 },
+  "voxel_width": 6,
+  "voxel_depth": 6,
+  "voxel_height": 6,
+  "voxel_blocks": [
+    "DDDDDG",
+    "DDDDDG",
+    "DDDDDD",
+    "SSSDDD",
+    "SSSDDG",
+    "SBSBS0",
+
+    "DGGGGC",
+    "DGGGG0",
+    "DGGGGG",
+    "SSSGGG",
+    "SBSSG0",
+    "SSSBG0",
+
+    "GR00T0",
+    "G000L0",
+    "BT0000",
+    "S00000",
+    "S00000",
+    "SBS0T0",
+
+    "000000",
+    "s000L0",
+    "B00000",
+    "S00000",
+    "S00000",
+    "SSS000",
+    
+    "000FFF",
+    "000FLF",
+    "000FFF",
+    "B00000",
+    "S00000",
+    "B0B000",
+
+    "0000F0",
+    "000FFF",
+    "0000F0",
+    "000000",
+    "000000",
+    "00C000"
+  ],
+  "rotations": [
+    { "x": 1, "y": 2, "z": 0, "rotation": 270 }
+  ]
+}
